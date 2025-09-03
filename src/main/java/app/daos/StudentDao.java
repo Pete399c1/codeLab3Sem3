@@ -55,7 +55,9 @@ public class StudentDao implements IDAO<Student, Integer> {
         try(EntityManager em = emf.createEntityManager()){
             Student student = em.find(Student.class,id);
             if(student != null){
+                em.getTransaction().begin();
                 em.remove(student);
+                em.getTransaction().commit();
                 return true;
             }else{
                 return false;
@@ -64,4 +66,26 @@ public class StudentDao implements IDAO<Student, Integer> {
             return false;
         }
     }
+
+    // should lay here because it returns Lists of the student objects its just based on witch id from course
+    public List<Student> getStudentsByCourseId(int courseId){
+        try(EntityManager em = emf.createEntityManager()){
+            TypedQuery<Student> query = em.createQuery("select s from Student s where s.course.id = :courseId", Student.class);
+            query.setParameter("courseId",courseId);
+            return query.getResultList();
+
+        }
+    }
+
+    // student knows course by relation But it does not know teacher only course does that
+    public List<Student> getStudentsByCourseIdAndTeacherId(int courseId, int teacherId){
+        try(EntityManager em = emf.createEntityManager()){
+            TypedQuery<Student> query = em.createQuery("select s from Student s where s.course.id = :courseId and s.course.teacher.id = :teacherId", Student.class);
+            query.setParameter("courseId",courseId);
+            query.setParameter("teacherId", teacherId);
+            return query.getResultList();
+
+        }
+    }
+
 }

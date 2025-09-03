@@ -19,6 +19,8 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Enumerated(EnumType.STRING)
     private CourseName courseName;
     private String description;
     private LocalDate endDate;
@@ -31,7 +33,7 @@ public class Course {
     @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private  Teacher teacher;
+    private Teacher teacher;
 
 
 

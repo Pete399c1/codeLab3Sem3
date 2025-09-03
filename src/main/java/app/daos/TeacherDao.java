@@ -11,6 +11,10 @@ import java.util.List;
 public class TeacherDao implements IDAO<Teacher, Integer> {
     private EntityManagerFactory emf;
 
+    public TeacherDao(EntityManagerFactory emf){
+        this.emf = emf;
+    }
+
     @Override
     public Teacher create(Teacher teacher) {
         try(EntityManager em = emf.createEntityManager()){
